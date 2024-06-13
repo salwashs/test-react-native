@@ -1,0 +1,42 @@
+{
+  "admins": [
+    {
+      "id": 1,
+      "username": "super admin",
+      "email": "s0admin@mail.com",
+      "password": "rahasia"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "Nia",
+      "province": "Jambi",
+      "provinceId": 15,
+      "regency": "Kota Jambi",
+      "regencyId": 1571,
+      "district": "Kota Baru",
+      "districtId": 1571010
+    },
+    {
+      "id": 2,
+      "name": "Salwa",
+      "province": "Sulawesi Selatan",
+      "provinceId": 73,
+      "regency": "Kabupaten Gowa",
+      "regencyId": 7306,
+      "district": "Pallangga",
+      "districtId": 7306030
+    },
+    {
+      "id": 3,
+      "name": "Made",
+      "province": "Bali",
+      "provinceId": 51,
+      "regency": "Kota Denpasar",
+      "regencyId": 5171,
+      "district": "Denpasar Selatan",
+      "districtId": 5171010
+    }
+  ]
+}
