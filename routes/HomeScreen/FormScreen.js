@@ -1,3 +1,4 @@
+import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -25,6 +26,7 @@ import {
   clearCacheRegency,
 } from "../../redux/slices/customerSlice";
 import { validateInputEmpty } from "../../utils/InputValidates";
+import { CUSTOMER_DATA } from "../../constant/KeyStore";
 
 let initialState = {
   name: "",
@@ -73,7 +75,30 @@ export default function FormScreen({ route, navigation }) {
     dispatch(clearCacheDistrict());
   }, [id]);
 
-  console.log(form);
+  const updateData = async (id, input) => {
+    try {
+      const data = await SecureStore.getItemAsync(CUSTOMER_DATA);
+
+      if (data || data.length > 2) {
+        let parseValue = JSON.parse(data);
+
+        const findIndex = parseValue.findIndex((item) => item.id == id);
+
+        if (findIndex === -1) throw new Error("Data not found");
+
+        parseValue[findIndex] = { ...parseValue[findIndex], ...input };
+
+        await SecureStore.setItemAsync(
+          CUSTOMER_DATA,
+          JSON.stringify(parseValue)
+        );
+
+        navigation.navigate("Home");
+      }
+    } catch (error) {
+      console.log("🚀 ~ updateData ~ error:", error);
+    }
+  };
 
   const submitHandler = async () => {
     let newError = {};
@@ -98,7 +123,11 @@ export default function FormScreen({ route, navigation }) {
     setError(newError);
 
     if (Object.keys(newError).length < 1) {
-      dispatch(createCustomer(form));
+      if (id === "create") {
+        dispatch(createCustomer(form));
+      } else {
+        updateData(id, form);
+      }
       setSubmitted(true);
 
       setTimeout(() => {
